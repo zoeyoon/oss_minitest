@@ -52,14 +52,26 @@ void saveData(Product p[], int count){
 
 //파일에서 데이터 불러오는 함수
 int loadData(Product *p){
-	int count=0;
-	FILE*fp;
+        int count=0, i=0;
+        //파일 내용을 읽어와서 배열에 값 추가하기
+        FILE *fp = fopen("product.txt", "rt");
 
-	//파일 내용을 읽어와서 배열에 값 추가하기
-
-
-
-
-	printf("=> 로딩 성공!\n");
-	return count;
+        if (fp == NULL) {
+                printf("파일이 존재하지 않습니다.\n");
+        }
+        else {
+                while(1) {
+                        fscanf(fp, "%d", &p[i].weight);
+                        fscanf(fp, "%d", &p[i].price);
+                        fgetc(fp);
+                        fgets(p[i].name, 100, fp);
+                        p[i].name[strlen(p[i].name)-1]='\0';
+                        if(feof(fp)) break;
+                        i++;
+                        count++;
+                }
+        }
+        fclose(fp);
+        printf("=> 로딩 성공!\n");
+        return count;
 }
